@@ -2,6 +2,7 @@ from django.db import models
 from django.conf import settings
 
 from chat_app.models import Chat
+from Player.models import Player
 from sport_app.models import Sport
 
 from django.db import models
@@ -13,13 +14,6 @@ class GeoCoordinates(models.Model):
     def __str__(self):
         return f"{self.latitude}, {self.longitude}"
 
-class Sport(models.Model):
-    name = models.CharField(max_length=255)  # Nom du sport
-    description = models.TextField(null=True, blank=True)  # Description du sport
-    popularity_rank = models.IntegerField()  # Classement de popularité
-
-    def __str__(self):
-        return self.name
 
 class Location(models.Model):
     name = models.CharField(max_length=255)  # Nom du lieu
@@ -36,16 +30,7 @@ class Location(models.Model):
     def __str__(self):
         return self.name
 
-class Player(models.Model):
-    full_name = models.CharField(max_length=255)  # Nom complet
-    email = models.EmailField(unique=True)  # Adresse e-mail
-    phone_number = models.CharField(max_length=20, null=True, blank=True)  # Numéro de téléphone
-    date_of_birth = models.DateField()  # Date de naissance
-    gender = models.CharField(max_length=10, choices=[('M', 'Male'), ('F', 'Female')])  # Genre
-    sports = models.ManyToManyField(Sport, related_name="players")  # Sports pratiqués
 
-    def __str__(self):
-        return self.full_name
 
 class ProposedDate(models.Model):
     date = models.DateField()  # Date proposée
