@@ -1,47 +1,52 @@
-from rest_framework import generics, permissions, filters
-from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import generics
 from images_app.models import Album, Photo
-from .serializers import AlbumSerializer, PhotoSerializer
+from images_app.api.serializers import AlbumSerializer, PhotoSerializer
+from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.parsers import MultiPartParser, FormParser
+from rest_framework import status
+from rest_framework.views import APIView
+from rest_framework.generics import ListAPIView
 
 
-class IsOwnerOrReadOnly(permissions.BasePermission):
-    def has_object_permission(self, request, view, obj):
-        if request.method in permissions.SAFE_METHODS:
-            return True
-        return obj.created_by == request.user
+class UploadImageView(APIView):
+    permission_classes = [IsAuthenticated]
+    parser_classes = [MultiPartParser, FormParser]
+
+    def post(self, request, *args, **kwargs):
+        user = request.user
+        serializer = PhotoSerializer(instance=user, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"message": "Image uploaded successfully", "data": serializer.data}, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+# Views pour Album
 class AlbumListCreateView(generics.ListCreateAPIView):
-    queryset = Album.objects.all()
+    queryset = Album.objects.prefetch_related('photos').all()
     serializer_class = AlbumSerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
-    filter_backends = [DjangoFilterBackend, filters.SearchFilter]
-    filterset_fields = ['is_public', 'tags', 'created_by']
-    search_fields = ['title', 'description', 'location']
-
-    def perform_create(self, serializer):
-        serializer.save(created_by=self.request.user)
-
-
-class AlbumDetailView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Album.objects.all()
+    
+    
+class AlbumRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Album.objects.prefetch_related('photos').all()
     serializer_class = AlbumSerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
 
-
+# Views pour Photo
 class PhotoListCreateView(generics.ListCreateAPIView):
     queryset = Photo.objects.all()
     serializer_class = PhotoSerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
-    filter_backends = [DjangoFilterBackend, filters.SearchFilter]
-    filterset_fields = ['album', 'tags', 'is_favorite', 'location']
-    search_fields = ['title', 'description', 'photographer']
 
-    def perform_create(self, serializer):
-        serializer.save()
-
-
-class PhotoDetailView(generics.RetrieveUpdateDestroyAPIView):
+class PhotoRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Photo.objects.all()
     serializer_class = PhotoSerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
+
+class AlbumPhotosListView(ListAPIView):
+    """
+    Vue pour lister toutes les photos d'un album spécifique.
+    """
+    serializer_class = PhotoSerializer
+
+    def get_queryset(self):
+        album_id = self.kwargs['album_id']
+        return Photo.objects.filter(album_id=album_id)
