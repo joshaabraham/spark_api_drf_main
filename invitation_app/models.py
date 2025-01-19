@@ -3,32 +3,10 @@ from django.conf import settings
 
 from chat_app.models import Chat
 from Player.models import Player
+from localisation_app.models import Address
 from sport_app.models import Sport
 
 from django.db import models
-
-class GeoCoordinates(models.Model):
-    latitude = models.FloatField()  # Latitude
-    longitude = models.FloatField()  # Longitude
-
-    def __str__(self):
-        return f"{self.latitude}, {self.longitude}"
-
-
-class Location(models.Model):
-    name = models.CharField(max_length=255)  # Nom du lieu
-    address = models.TextField()  # Adresse
-    city = models.CharField(max_length=100)  # Ville
-    country = models.CharField(max_length=100)  # Pays
-    coordinates = models.OneToOneField(
-        GeoCoordinates, on_delete=models.CASCADE, null=True, blank=True
-    )  # Coordonnées géographiques
-    description = models.TextField(null=True, blank=True)  # Description ou détails
-    is_indoor = models.BooleanField(default=False)  # Indique si le lieu est en intérieur
-    capacity = models.IntegerField(null=True, blank=True)  # Capacité maximale
-
-    def __str__(self):
-        return self.name
 
 
 
@@ -63,15 +41,15 @@ class Invitation(models.Model):
     )  # Statut de l'invitation
     message = models.TextField(null=True, blank=True)  # Message personnalisé
     proposed_location = models.ForeignKey(
-        Location, on_delete=models.SET_NULL, null=True, blank=True, related_name="proposed_invitations"
+        Address, on_delete=models.SET_NULL, null=True, blank=True, related_name="proposed_invitations"
     )  # Lieu proposé
     alternative_locations = models.ManyToManyField(
-        Location, blank=True, related_name="alternative_invitations"
+        Address, blank=True, related_name="alternative_invitations"
     )  # Lieux alternatifs
     proposed_dates = models.ManyToManyField(ProposedDate, blank=True)  # Dates proposées
     confirmed_date = models.DateTimeField(null=True, blank=True)  # Date confirmée
     confirmed_location = models.ForeignKey(
-        Location, on_delete=models.SET_NULL, null=True, blank=True, related_name="confirmed_invitations"
+        Address, on_delete=models.SET_NULL, null=True, blank=True, related_name="confirmed_invitations"
     )  # Lieu confirmé
     has_players_met_before = models.BooleanField(default=False)  # Indique si les joueurs se sont rencontrés
 

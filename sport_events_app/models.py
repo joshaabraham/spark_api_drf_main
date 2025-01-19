@@ -2,11 +2,9 @@ from django.db import models
 
 from Player.models import Player
 from equipe_app.models import Team
+from localisation_app.models import GeoCoordinates
 from sport_app.models import Sport
 
-class GeoCoordinates(models.Model):
-    latitude = models.FloatField()  # Latitude
-    longitude = models.FloatField()  # Longitude
 
 
 class Sponsor(models.Model):
@@ -24,7 +22,7 @@ class MediaCoverage(models.Model):
 class Location(models.Model):
     name = models.CharField(max_length=255)  # Nom du lieu
     address = models.TextField(blank=True, null=True)  # Adresse facultative
-    coordinates = models.OneToOneField(GeoCoordinates, on_delete=models.CASCADE, related_name="location")  # Coordonnées géographiques
+    coordinates = models.ForeignKey(GeoCoordinates, on_delete=models.CASCADE, related_name="location")  # Coordonnées géographiques
 
 class Match(models.Model):
     match_date = models.DateTimeField()  # Date et heure du match
