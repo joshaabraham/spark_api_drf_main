@@ -22,7 +22,7 @@ class ProfileUser(models.Model):
     is_private = models.BooleanField(default=False)
 
     # Champs pour la gestion des amis, abonnés et abonnements
-    friends = models.ManyToManyField('self', blank=True, related_name='friend_set', symmetrical=True)
+    # friends = models.ManyToManyField('self', blank=True, related_name='friend_set', symmetrical=True)
     followers = models.ManyToManyField('self', blank=True, related_name='followers_set', symmetrical=False)
     following = models.ManyToManyField('self', blank=True, related_name='following_set', symmetrical=False)
 
