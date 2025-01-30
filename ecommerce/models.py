@@ -1,3 +1,4 @@
+from datetime import timezone
 from django.db import models
 from django.conf import settings
 
@@ -11,7 +12,7 @@ class Category(models.Model):
 from django.db import models
 from django.contrib.auth.models import User
 
-class Produit(models.Model):
+class Product(models.Model):
     # Choices pour l'état du produit
     ETAT_CHOICES = [
         ('neuf', 'Neuf'),
@@ -42,7 +43,7 @@ class Produit(models.Model):
     etat = models.CharField(max_length=20, choices=ETAT_CHOICES, default='neuf')
     
     # Vendeur
-    vendeur = models.ForeignKey(User, on_delete=models.CASCADE, related_name='produits')
+    vendeur = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='produits')
     nom_vendeur = models.CharField(max_length=255)
     
     # Images
@@ -86,7 +87,7 @@ class Produit(models.Model):
     prix_depart_enchere = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
     date_debut_enchere = models.DateTimeField(blank=True, null=True)
     date_fin_enchere = models.DateTimeField(blank=True, null=True)
-    meilleur_encherisseur = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='enchere_produits')
+    meilleur_encherisseur = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True, related_name='enchere_produits')
     prix_actuel_enchere = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
     
     # Autres attributs
