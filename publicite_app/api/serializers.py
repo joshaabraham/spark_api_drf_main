@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from publicite_app.models import (
-    PubliciteBase, PubliciteVideo, PubliciteBanniere, PubliciteCarrousel, PubliciteNative, Media, CtaButton,CampagnePublicitaire, BudgetCampagne,
-    PageFacebook,BudgetEtCalendrier,ControleAudience
+    Calendrier, PubliciteBase, PubliciteVideo, PubliciteBanniere, PubliciteCarrousel, PubliciteNative, Media, CtaButton,CampagnePublicitaire, BudgetCampagne,
+    PageFacebook, ControleAudience
 )
 
 class ControleAudienceSerializer(serializers.ModelSerializer):
@@ -9,9 +9,9 @@ class ControleAudienceSerializer(serializers.ModelSerializer):
         model = ControleAudience
         fields = '__all__'
 
-class BudgetEtCalendrierSerializer(serializers.ModelSerializer):
+class CalendrierSerializer(serializers.ModelSerializer):
     class Meta:
-        model = BudgetEtCalendrier
+        model = Calendrier
         fields = '__all__'
 
 class CampagnePublicitaireSerializer(serializers.ModelSerializer):

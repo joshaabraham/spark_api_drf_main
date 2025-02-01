@@ -1,7 +1,7 @@
 from rest_framework import generics
 from rest_framework.response import Response
-from publicite_app.models import CampagnePublicitaire, PubliciteBase, PubliciteVideo, PubliciteBanniere, PubliciteCarrousel, PubliciteNative, ControleAudience, BudgetEtCalendrier, PageFacebook, BudgetCampagne
-from publicite_app.api.serializers import CampagnePublicitaireSerializer,  PubliciteBaseSerializer, PubliciteVideoSerializer, PubliciteBanniereSerializer, PubliciteCarrouselSerializer, PubliciteNativeSerializer,ControleAudienceSerializer, BudgetEtCalendrierSerializer, PageFacebookSerializer, BudgetCampagneSerializer
+from publicite_app.models import Calendrier, CampagnePublicitaire, PubliciteBase, PubliciteVideo, PubliciteBanniere, PubliciteCarrousel, PubliciteNative, ControleAudience, PageFacebook, BudgetCampagne
+from publicite_app.api.serializers import CalendrierSerializer, CampagnePublicitaireSerializer,  PubliciteBaseSerializer, PubliciteVideoSerializer, PubliciteBanniereSerializer, PubliciteCarrouselSerializer, PubliciteNativeSerializer,ControleAudienceSerializer, PageFacebookSerializer, BudgetCampagneSerializer
 
 from rest_framework import generics
 
@@ -15,13 +15,13 @@ class ControleAudienceDetailView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = ControleAudienceSerializer
 
 # Views for BudgetEtCalendrier
-class BudgetEtCalendrierListCreateView(generics.ListCreateAPIView):
-    queryset = BudgetEtCalendrier.objects.all()
-    serializer_class = BudgetEtCalendrierSerializer
+class CalendrierListCreateView(generics.ListCreateAPIView):
+    queryset = Calendrier.objects.all()
+    serializer_class = CalendrierSerializer
 
-class BudgetEtCalendrierDetailView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = BudgetEtCalendrier.objects.all()
-    serializer_class = BudgetEtCalendrierSerializer
+class CalendrierDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Calendrier.objects.all()
+    serializer_class = CalendrierSerializer
 
 # Views for PageFacebook
 class PageFacebookListCreateView(generics.ListCreateAPIView):

@@ -1,8 +1,8 @@
 from django.contrib import admin
 from .models import (
-    CampagnePublicitaire, PubliciteBase, PubliciteVideo, PubliciteBanniere, 
+    Calendrier, CampagnePublicitaire, PubliciteBase, PubliciteVideo, PubliciteBanniere, 
     PubliciteCarrousel, PubliciteNative, Media, CtaButton,
-    ControleAudience, BudgetEtCalendrier, PageFacebook, BudgetCampagne
+    ControleAudience, PageFacebook, BudgetCampagne
 )
 
 # Configuration d'affichage pour Media
@@ -76,7 +76,7 @@ class ControleAudienceAdmin(admin.ModelAdmin):
 # Enregistrement des modèles dans l'administration
 
 admin.site.register(ControleAudience)
-admin.site.register(BudgetEtCalendrier)
+admin.site.register(Calendrier)
 admin.site.register(PageFacebook)
 admin.site.register(BudgetCampagne)
 admin.site.register(CampagnePublicitaire, CampagnePublicitaireAdmin)

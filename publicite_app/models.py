@@ -15,7 +15,7 @@ class PageFacebook(models.Model):
     lien = models.URLField(max_length=500)
     logo = models.URLField(max_length=500)
 
-class BudgetEtCalendrier(models.Model):
+class Calendrier(models.Model):
     date_debut = models.DateField()
     heure_debut = models.TimeField()
     date_fin = models.DateField()
@@ -24,6 +24,7 @@ class BudgetEtCalendrier(models.Model):
 class ControleAudience(models.Model):
     lieu = models.CharField(max_length=255)
     age_minimum = models.IntegerField()
+    age_maximum = models.IntegerField()
     langues = models.JSONField()  # Liste de langues
     centre_interet = models.JSONField(blank=True, null=True)  # Liste de centres d'intérêt
     genre = models.CharField(max_length=10, blank=True, null=True)  # homme, femme, tous
@@ -36,7 +37,7 @@ class CampagnePublicitaire(models.Model):
     limite_depense = models.DecimalField(max_digits=10, decimal_places=2)
     budget_campagne = models.OneToOneField(BudgetCampagne, on_delete=models.CASCADE)
     page_facebook = models.OneToOneField(PageFacebook, on_delete=models.CASCADE)
-    budget_et_calendrier = models.OneToOneField(BudgetEtCalendrier, on_delete=models.CASCADE)
+    calendrier = models.OneToOneField(Calendrier, on_delete=models.CASCADE)
     controle_audience = models.OneToOneField(ControleAudience, on_delete=models.CASCADE)
     placement = models.CharField(max_length=255)
     liste_publicite = models.JSONField()  # Liste de publicités associées
@@ -74,6 +75,12 @@ class PubliciteBase(models.Model):
         ('carrousel', 'Carrousel'),
         ('native', 'Native'),
     ]
+    campagne_publicitaire = models.ForeignKey(
+        CampagnePublicitaire, 
+        on_delete=models.CASCADE, 
+        related_name='publicites'
+    )  # Relation vers la campagne publicitaire
+    ordreAffichage = models.IntegerField(blank=True, null=True)
     type_publicite = models.CharField(max_length=50, choices=TYPE_PUBLICITE_CHOICES)
     nom_publicite = models.CharField(max_length=255)
     texte_principal = models.TextField()
@@ -85,11 +92,6 @@ class PubliciteBase(models.Model):
     impressions = models.IntegerField(blank=True, null=True)
     clics = models.IntegerField(blank=True, null=True)
     taux_conversion = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
-    campagne_publicitaire = models.ForeignKey(
-        CampagnePublicitaire, 
-        on_delete=models.CASCADE, 
-        related_name='publicites'
-    )  # Relation vers la campagne publicitaire
 
 class PubliciteVideo(PubliciteBase):
     video_autoplay = models.BooleanField(default=True)
