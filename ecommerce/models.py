@@ -23,28 +23,28 @@ class Product(models.Model):
     ]
     
     # Identité du produit
-    nom = models.CharField(max_length=255)
+    nom = models.CharField(max_length=255, default='Nouveau produit')
     description = models.TextField()
     description_courte = models.CharField(max_length=255, blank=True, null=True)
     prix = models.DecimalField(max_digits=10, decimal_places=2)
     est_neuf = models.BooleanField(default=True)
     
     # Catégorisation
-    categorie = models.CharField(max_length=100)
+    categorie = models.CharField(max_length=100, default='Autres')
     sous_categorie = models.CharField(max_length=100, blank=True, null=True)
     marque = models.CharField(max_length=100, blank=True, null=True)
     modele = models.CharField(max_length=100, blank=True, null=True)
     
     # Dates importantes
-    date_mise_en_ligne = models.DateTimeField(auto_now_add=True)
+    date_mise_en_ligne = models.DateTimeField(auto_now_add=True, blank=True, null=True)
     derniere_modification = models.DateTimeField(auto_now=True)
     
     # État
     etat = models.CharField(max_length=20, choices=ETAT_CHOICES, default='neuf')
     
     # Vendeur
-    vendeur = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='produits')
-    nom_vendeur = models.CharField(max_length=255)
+    vendeur = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='produits', default=1)
+    nom_vendeur = models.CharField(max_length=255, default='Anonyme')
     
     # Images
     images = models.JSONField(default=list, blank=True)  # Liste d'URLs ou de chemins
