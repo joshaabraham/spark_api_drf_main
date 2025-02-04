@@ -1,9 +1,8 @@
 from django.urls import path
 from .views import (
-    CampagnePublicitaireListCreateView, CampagnePublicitaireDetailView,
+    CalendrierDetailView, CalendrierListCreateView, CampagnePublicitaireListCreateView, CampagnePublicitaireDetailView,
     PubliciteListCreateView, PubliciteDetailView,
     ControleAudienceListCreateView, ControleAudienceDetailView,
-    BudgetEtCalendrierListCreateView, BudgetEtCalendrierDetailView,
     PageFacebookListCreateView, PageFacebookDetailView,
     BudgetCampagneListCreateView, BudgetCampagneDetailView
 )
@@ -22,8 +21,8 @@ urlpatterns = [
     path('controle-audience/<int:pk>/', ControleAudienceDetailView.as_view(), name='controle-audience-detail'),
 
     # URLs for BudgetEtCalendrier
-    path('budget-et-calendrier/', BudgetEtCalendrierListCreateView.as_view(), name='budget-et-calendrier-list-create'),
-    path('budget-et-calendrier/<int:pk>/', BudgetEtCalendrierDetailView.as_view(), name='budget-et-calendrier-detail'),
+    path('budget-et-calendrier/', CalendrierListCreateView.as_view(), name='budget-et-calendrier-list-create'),
+    path('budget-et-calendrier/<int:pk>/', CalendrierDetailView.as_view(), name='budget-et-calendrier-detail'),
 
     # URLs for PageFacebook
     path('page-facebook/', PageFacebookListCreateView.as_view(), name='page-facebook-list-create'),

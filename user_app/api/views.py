@@ -4,6 +4,8 @@ from rest_framework.response import Response
 from rest_framework.exceptions import AuthenticationFailed
 
 import jwt, datetime
+from spark_api_drf_main.profile_app.models import ProfileUser
+from spark_api_drf_main.user_config.models import UserConfiguration
 from user_app.api.serializers import UserSerializer
 from user_app.models import CustomUser
 
@@ -36,10 +38,17 @@ class LoginView(APIView):
 
         # Generate tokens using SimpleJWT
         refresh = RefreshToken.for_user(user)
+        
+         # Get user profile and configuration
+        profile = ProfileUser.objects.get(user=user)
+        configuration = UserConfiguration.objects.get(user=user)
 
         return Response({
             'refresh': str(refresh),
             'access': str(refresh.access_token),
+            'user': UserSerializer(user).data,
+            'profile': ProfileSerializer(profile).data,
+            'configuration': ConfigurationSerializer(configuration).data,
         })
 
 
