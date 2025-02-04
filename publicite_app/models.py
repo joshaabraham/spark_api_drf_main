@@ -104,3 +104,20 @@ class PubliciteCarrousel(PubliciteBase):
 
 class PubliciteNative(PubliciteBase):
     source = models.CharField(max_length=255)  # Recommandé par, sponsorisé par, etc.
+
+
+# Filtre pour CampagnePublicitaire
+class CampagnePublicitaireFilter(filters.FilterSet):
+    nom_campagne = filters.CharFilter(lookup_expr='icontains')
+    type_achat = filters.CharFilter(lookup_expr='iexact')
+    objectif = filters.CharFilter(lookup_expr='iexact')
+    limite_depense = filters.RangeFilter()
+    statut_campagne = filters.CharFilter(lookup_expr='iexact')
+    taux_clics = filters.RangeFilter()
+    nombre_impressions = filters.RangeFilter()
+    date_creation = filters.DateFromToRangeFilter()
+    owner = filters.CharFilter(lookup_expr='iexact')
+
+    class Meta:
+        model = CampagnePublicitaire
+        fields = ['nom_campagne', 'type_achat', 'objectif', 'limite_depense', 'statut_campagne', 'taux_clics', 'nombre_impressions', 'date_creation', 'owner']
