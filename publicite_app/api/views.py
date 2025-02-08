@@ -1,6 +1,7 @@
-from rest_framework import generics
+from rest_framework import generics, viewsets
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.response import Response
-from publicite_app.models import Calendrier, CampagnePublicitaire, PubliciteBase, PubliciteVideo, PubliciteBanniere, PubliciteCarrousel, PubliciteNative, ControleAudience, PageFacebook, BudgetCampagne
+from publicite_app.models import Calendrier, CampagnePublicitaire, PubliciteBase, PubliciteFilter, PubliciteVideo, PubliciteBanniere, PubliciteCarrousel, PubliciteNative, ControleAudience, PageFacebook, BudgetCampagne
 from publicite_app.api.serializers import CalendrierSerializer, CampagnePublicitaireSerializer,  PubliciteBaseSerializer, PubliciteVideoSerializer, PubliciteBanniereSerializer, PubliciteCarrouselSerializer, PubliciteNativeSerializer,ControleAudienceSerializer, PageFacebookSerializer, BudgetCampagneSerializer
 
 from rest_framework import generics
@@ -50,6 +51,12 @@ class CampagnePublicitaireListCreateView(generics.ListCreateAPIView):
 class CampagnePublicitaireDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = CampagnePublicitaire.objects.all()
     serializer_class = CampagnePublicitaireSerializer
+    
+class PubliciteViewSet(viewsets.ModelViewSet):
+    queryset = PubliciteBase.objects.all()
+    serializer_class = PubliciteBaseSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = PubliciteFilter
 
 # ListCreateAPIView pour lister et créer des publicités
 class PubliciteListCreateView(generics.ListCreateAPIView):
