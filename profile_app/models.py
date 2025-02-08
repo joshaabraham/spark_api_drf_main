@@ -1,10 +1,8 @@
 from django.utils import timezone
 from localisation_app.models import Address
 from django.db import models
-
 from contact_app.api.serializers import User
-
-# Create your models here.
+from images_app.models import Album  # Importez le modèle AlbumPhoto
 
 class ProfileUser(models.Model):
     # Relation OneToOne avec le modèle User par défaut de Django
@@ -22,7 +20,6 @@ class ProfileUser(models.Model):
     is_private = models.BooleanField(default=False)
 
     # Champs pour la gestion des amis, abonnés et abonnements
-    # friends = models.ManyToManyField('self', blank=True, related_name='friend_set', symmetrical=True)
     followers = models.ManyToManyField('self', blank=True, related_name='followers_set', symmetrical=False)
     following = models.ManyToManyField('self', blank=True, related_name='following_set', symmetrical=False)
 
@@ -32,11 +29,15 @@ class ProfileUser(models.Model):
     following_count = models.PositiveIntegerField(default=0)
     friends_count = models.PositiveIntegerField(default=0)
 
+    # Relation avec les albums photo
+    albums_photo = models.ManyToManyField(Album, blank=True, related_name='profile_users')
+
     # Informations temporelles
-    date_joined = models.DateTimeField(default=timezone.now)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"{self.user.username}'s profile"
+        return self.user.username
 
     # Méthode pour ajouter un ami
     def add_friend(self, profile):
@@ -85,6 +86,3 @@ class ProfileUser(models.Model):
     # Méthode pour obtenir tous les abonnements
     def get_following(self):
         return self.following.all()
-    
-    
-    

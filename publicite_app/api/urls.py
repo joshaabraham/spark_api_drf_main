@@ -31,4 +31,6 @@ urlpatterns = [
     # URLs for BudgetCampagne
     path('budget-campagne/', BudgetCampagneListCreateView.as_view(), name='budget-campagne-list-create'),
     path('budget-campagne/<int:pk>/', BudgetCampagneDetailView.as_view(), name='budget-campagne-detail'),
+    
+
 ]

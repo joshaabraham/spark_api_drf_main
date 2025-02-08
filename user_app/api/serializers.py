@@ -1,4 +1,5 @@
 from profile_app.models import ProfileUser
+from comportement_app.models import UserComportement
 from user_config.models import UserConfiguration
 from user_app.models import CustomUser
 from rest_framework import serializers
@@ -39,3 +40,8 @@ class ConfigurationSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserConfiguration
         fields = ['setting1', 'setting2']  # Remplacez par les champs réels de votre modèle de configuration
+        
+class ComportementSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserComportement
+        fields = ['behavior1', 'behavior2']  # Remplacez par les champs réels de votre modèle de comportement
