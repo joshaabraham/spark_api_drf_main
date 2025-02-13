@@ -5,8 +5,9 @@ from rest_framework.exceptions import AuthenticationFailed
 
 import jwt, datetime
 from profile_app.models import ProfileUser
+from comportement_app.models import UserComportement
 from user_config.models import UserConfiguration
-from user_app.api.serializers import ConfigurationSerializer, ProfileSerializer, UserSerializer
+from user_app.api.serializers import ComportementSerializer, ConfigurationSerializer, ProfileSerializer, UserSerializer
 from user_app.models import CustomUser
 
 from rest_framework_simplejwt.tokens import RefreshToken
