@@ -4,7 +4,8 @@ import os
 
 
 def user_directory_path(instance, filename):
-    return f'uploads/users/{instance}/{filename}'
+    # file will be uploaded to MEDIA_ROOT/uploads/users/<user_id>/<filename>
+    return f'uploads/users/{instance.album.created_by.id}/{filename}'
 
 
 class Album(models.Model):
@@ -61,6 +62,6 @@ class Photo(models.Model):
 
     def save(self, *args, **kwargs):
         # Dynamically define the upload_to path based on the album
-        if self.album and not self.image.name.startswith(f'albums/{self.album.id}/'):
-            self.image.name = f'albums/{self.album.id}/{self.image.name}'
+        if self.album and not self.image.name.startswith(f'uploads/users/{self.album.created_by.id}/'):
+            self.image.name = f'uploads/users/{self.album.created_by.id}/{self.image.name}'
         super().save(*args, **kwargs)

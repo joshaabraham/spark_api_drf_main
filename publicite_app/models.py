@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+import django_filters
 
 
 class BudgetCampagne(models.Model):
@@ -108,18 +109,37 @@ class PubliciteNative(PubliciteBase):
     source = models.CharField(max_length=255)  # Recommandé par, sponsorisé par, etc.
 
 
-# Filtre pour CampagnePublicitaire
-class CampagnePublicitaireFilter(filters.FilterSet):
-    nom_campagne = filters.CharFilter(lookup_expr='icontains')
-    type_achat = filters.CharFilter(lookup_expr='iexact')
-    objectif = filters.CharFilter(lookup_expr='iexact')
-    limite_depense = filters.RangeFilter()
-    statut_campagne = filters.CharFilter(lookup_expr='iexact')
-    taux_clics = filters.RangeFilter()
-    nombre_impressions = filters.RangeFilter()
-    date_creation = filters.DateFromToRangeFilter()
-    owner = filters.CharFilter(lookup_expr='iexact')
+
+class PubliciteFilter(django_filters.FilterSet):
+    campagne_publicitaire = django_filters.NumberFilter(field_name="campagne_publicitaire__id")
+    ordreAffichage = django_filters.NumberFilter()
+    type_publicite = django_filters.ChoiceFilter(choices=PubliciteBase.TYPE_PUBLICITE_CHOICES)
+    nom_publicite = django_filters.CharFilter(lookup_expr="icontains")
+    texte_principal = django_filters.CharFilter(lookup_expr="icontains")
+    media = django_filters.NumberFilter(field_name="media__id")
+    url_destination = django_filters.CharFilter(lookup_expr="icontains")
+    cta_button = django_filters.NumberFilter(field_name="cta_button__id", null_value=None)
+    date_creation = django_filters.DateFromToRangeFilter()
+    statut = django_filters.CharFilter(lookup_expr="iexact")
+    impressions = django_filters.RangeFilter()
+    clics = django_filters.RangeFilter()
+    taux_conversion = django_filters.RangeFilter()
 
     class Meta:
-        model = CampagnePublicitaire
-        fields = ['nom_campagne', 'type_achat', 'objectif', 'limite_depense', 'statut_campagne', 'taux_clics', 'nombre_impressions', 'date_creation', 'owner']
+        model = PubliciteBase
+        fields = [
+            "campagne_publicitaire",
+            "ordreAffichage",
+            "type_publicite",
+            "nom_publicite",
+            "texte_principal",
+            "media",
+            "url_destination",
+            "cta_button",
+            "date_creation",
+            "statut",
+            "impressions",
+            "clics",
+            "taux_conversion",
+        ]
+

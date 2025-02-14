@@ -9,7 +9,7 @@ class ContentType(models.TextChoices):
     ARTICLE = 'ARTICLE', 'Article'
     ADVERTISEMENT = 'ADVERTISEMENT', 'Advertisement'
 
-class UserAction(models.Model):
+class UserComportement(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     action_type = models.CharField(max_length=200) # par exemple 'click', 'reaction'
     timestamp = models.DateTimeField(auto_now_add=True)

@@ -1,7 +1,7 @@
 from rest_framework import serializers
-from comportement_app.models import UserAction
+from comportement_app.models import UserComportement
 
 class UserActionSerializer(serializers.ModelSerializer):
     class Meta:
-        model = UserAction
+        model = UserComportement
         fields = '__all__'

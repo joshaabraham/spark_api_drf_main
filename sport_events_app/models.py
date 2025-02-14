@@ -4,6 +4,7 @@ from Player.models import Player
 from equipe_app.models import Team
 from localisation_app.models import Address
 from sport_app.models import Sport
+from images_app.models import Album  # Importez le modèle Album
 
 
 
@@ -31,6 +32,7 @@ class Match(models.Model):
     team_b = models.ForeignKey(Team, on_delete=models.CASCADE, related_name="matches_as_team_b")  # Deuxième équipe
     result = models.CharField(max_length=50, blank=True, null=True)  # Résultat du match
     key_players = models.ManyToManyField(Player, related_name="key_matches")  # Joueurs clés du match
+    album = models.OneToOneField(Album, on_delete=models.CASCADE, related_name="match_album", blank=True, null=True)  # Album photo du match
 
 class SportEvent(models.Model):
     name = models.CharField(max_length=255)  # Nom de l'événement
@@ -49,3 +51,4 @@ class SportEvent(models.Model):
     matches = models.ManyToManyField(Match, related_name="sport_events")  # Matchs inclus
     sponsors = models.ManyToManyField(Sponsor, related_name="sponsored_events")  # Sponsors
     media_coverage_details = models.ManyToManyField(MediaCoverage, related_name="covered_events")  # Couverture médiatique
+    album = models.OneToOneField(Album, on_delete=models.CASCADE, related_name="event_album", blank=True, null=True)  # Album photo de l'événement

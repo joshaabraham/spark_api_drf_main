@@ -1,42 +1,36 @@
+from django.conf import settings
 from django.utils import timezone
 from localisation_app.models import Address
 from django.db import models
-
 from contact_app.api.serializers import User
-
-# Create your models here.
+from images_app.models import Album  # Importez le modèle AlbumPhoto
 
 class ProfileUser(models.Model):
-    # Relation OneToOne avec le modèle User par défaut de Django
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
-
-    # Champs supplémentaires pour le profil utilisateur
-    bio = models.TextField(max_length=500, blank=True, null=True)
-    location = models.CharField(max_length=30, blank=True, null=True)
-    birth_date = models.DateField(null=True, blank=True)
-    profile_image = models.ImageField(upload_to='profile_pics/', null=True, blank=True)
-    cover_image = models.ImageField(upload_to='cover_pics/', null=True, blank=True)
-
-    # Champs relatifs à l'activité de l'utilisateur
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='profile')
+    avatar = models.ImageField(upload_to='profile_pics/', null=True, blank=True)
+    background = models.ImageField(upload_to='cover_pics/', null=True, blank=True)
+    name = models.CharField(max_length=255)
+    title = models.CharField(max_length=255, blank=True, null=True)
+    job = models.CharField(max_length=255, blank=True, null=True)
+    company = models.CharField(max_length=255, blank=True, null=True)
+    birthday = models.DateField(null=True, blank=True)
+    address = models.CharField(max_length=255, blank=True, null=True)
+    notes = models.TextField(blank=True, null=True)
+    tags = models.TextField(blank=True, null=True)
     website = models.URLField(max_length=200, blank=True, null=True)
     is_private = models.BooleanField(default=False)
-
-    # Champs pour la gestion des amis, abonnés et abonnements
-    # friends = models.ManyToManyField('self', blank=True, related_name='friend_set', symmetrical=True)
     followers = models.ManyToManyField('self', blank=True, related_name='followers_set', symmetrical=False)
     following = models.ManyToManyField('self', blank=True, related_name='following_set', symmetrical=False)
-
-    # Champs supplémentaires pour les données d'activité sociale
     posts_count = models.PositiveIntegerField(default=0)
     followers_count = models.PositiveIntegerField(default=0)
     following_count = models.PositiveIntegerField(default=0)
     friends_count = models.PositiveIntegerField(default=0)
-
-    # Informations temporelles
-    date_joined = models.DateTimeField(default=timezone.now)
+    albums_photo = models.ManyToManyField('images_app.Album', blank=True, related_name='profile_users')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"{self.user.username}'s profile"
+            return f"{self.name}"
 
     # Méthode pour ajouter un ami
     def add_friend(self, profile):
@@ -85,6 +79,3 @@ class ProfileUser(models.Model):
     # Méthode pour obtenir tous les abonnements
     def get_following(self):
         return self.following.all()
-    
-    
-    
