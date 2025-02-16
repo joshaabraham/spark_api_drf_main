@@ -34,14 +34,17 @@ class UserSerializer(serializers.ModelSerializer):
 class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProfileUser
-        fields = ['bio', 'location', 'birth_date', 'profile_image', 'cover_image']
+        # fields = ['bio', 'location', 'birth_date', 'profile_image', 'cover_image']
+        fields = '__all__'
 
 class ConfigurationSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserConfiguration
-        fields = ['setting1', 'setting2']  # Remplacez par les champs réels de votre modèle de configuration
+        # fields = ['setting1', 'setting2']  # Remplacez par les champs réels de votre modèle de configuration
+        fields = '__all__'
         
 class ComportementSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserComportement
-        fields = ['behavior1', 'behavior2']  # Remplacez par les champs réels de votre modèle de comportement
+        # fields = ['behavior1', 'behavior2']  # Remplacez par les champs réels de votre modèle de comportement
+        fields = '__all__'
