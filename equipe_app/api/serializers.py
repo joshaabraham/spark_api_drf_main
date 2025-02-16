@@ -1,7 +1,17 @@
 from rest_framework import serializers
 
 from equipe_app.models import FinancialRecord, Match, Sponsorship, Team, TeamHistory
+from sport_app.models import Sport
 
+class SportSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Sport
+        fields = '__all__'
+
+class TeamSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Team
+        fields = '__all__'
 
 class TeamHistorySerializer(serializers.ModelSerializer):
     class Meta:

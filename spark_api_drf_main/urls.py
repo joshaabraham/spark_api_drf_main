@@ -48,7 +48,7 @@ urlpatterns = [
     
     path("scc/", include("association_configuration_app.api.urls")),
     path("chats/", include("chat_app.api.urls")),
-    path("contacts/", include("contact_app.api.urls")),
+    path("contact_app/", include("contact_app.api.urls")),
     path("useractions/", include("comportement_app.api.urls")),
     
     
