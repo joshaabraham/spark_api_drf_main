@@ -1,12 +1,22 @@
 from rest_framework import serializers
-from employment_app.models import JobOffer, JobSearch
+from employment_app.models import JobOpportunity, RequiredSkill, RequiredLanguage, JobApplication
 
-class JobOfferSerializer(serializers.ModelSerializer):
+class JobOpportunitySerializer(serializers.ModelSerializer):
     class Meta:
-        model = JobOffer
+        model = JobOpportunity
         fields = '__all__'
 
-class JobSearchSerializer(serializers.ModelSerializer):
+class RequiredSkillSerializer(serializers.ModelSerializer):
     class Meta:
-        model = JobSearch
+        model = RequiredSkill
+        fields = '__all__'
+
+class RequiredLanguageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = RequiredLanguage
+        fields = '__all__'
+
+class JobApplicationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = JobApplication
         fields = '__all__'
