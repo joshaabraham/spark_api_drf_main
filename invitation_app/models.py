@@ -18,14 +18,16 @@ class ProposedDate(models.Model):
     def __str__(self):
         return f"{self.date} ({self.time_slot})"
 
-# class InvitationStatus(models.Model):
-#     PENDING = 'Pending', 'En attente'
-#     ACCEPTED = 'Accepted', 'Acceptée'
-#     DECLINED = 'Declined', 'Refusée'
-#     CANCELLED = 'Cancelled', 'Annulée'
-#     EXPIRED = 'Expired', 'Expirée'
-
 class Invitation(models.Model):
+    
+    STATUS_CHOICES = [
+    ('Pending', 'En attente'),
+    ('Accepted', 'Acceptée'),
+    ('Declined', 'Refusée'),
+    ('Cancelled', 'Annulée'),
+    ('Expired', 'Expirée'),
+    ]
+        
     player_a = models.ForeignKey(
         Player, related_name="sent_invitations", on_delete=models.CASCADE
     )  # Joueur A (envoyeur)
@@ -36,9 +38,9 @@ class Invitation(models.Model):
     invitation_date = models.DateTimeField(auto_now_add=True)  # Date d'envoi
     expiry_date = models.DateTimeField(null=True, blank=True)  # Date d'expiration
     response_date = models.DateTimeField(null=True, blank=True)  # Date de réponse
-    # status = models.CharField(
-    #     max_length=20, choices=InvitationStatus.choices, default=InvitationStatus.PENDING
-    # )  # Statut de l'invitation
+    status = models.CharField(
+        max_length=20, choices=STATUS_CHOICES, blank=True, null=True
+    )  # Statut de l'invitation
     message = models.TextField(null=True, blank=True)  # Message personnalisé
     proposed_location = models.ForeignKey(
         Address, on_delete=models.SET_NULL, null=True, blank=True, related_name="proposed_invitations"

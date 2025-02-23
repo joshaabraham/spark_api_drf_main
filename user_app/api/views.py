@@ -42,16 +42,16 @@ class LoginView(APIView):
         
          # Get user profile and configuration
         profile = ProfileUser.objects.get(user=user)
-        configuration = UserConfiguration.objects.get(user=user)
-        comportement = UserComportement.objects.get(user=user)
+        # configuration = UserConfiguration.objects.get(user=user)
+        # comportement = UserComportement.objects.get(user=user)
 
         return Response({
             'refresh': str(refresh),
             'access': str(refresh.access_token),
             'user': UserSerializer(user).data,
             'profile': ProfileSerializer(profile).data,
-            'configuration': ConfigurationSerializer(configuration).data,
-            'comportement': ComportementSerializer(comportement).data,
+            # 'configuration': ConfigurationSerializer(configuration).data,
+            # 'comportement': ComportementSerializer(comportement).data,
         })
 
 
