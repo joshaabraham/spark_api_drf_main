@@ -22,7 +22,7 @@ class Address(models.Model):
     # latitude = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True)
     # longitude = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True)
 
-    def __str__(self):
+     def __str__(self):
         return f"{self.street}, {self.city}, {self.state}, {self.postal_code}, {self.country}"
 
     def save(self, *args, **kwargs):
@@ -30,7 +30,11 @@ class Address(models.Model):
         location = geolocator.geocode(f"{self.street}, {self.city}, {self.state}, {self.postal_code}, {self.country}")
         
         if location:
-            self.latitude = location.latitude
-            self.longitude = location.longitude
+            if not self.geocoordinates:
+                self.geocoordinates = GeoCoordinates.objects.create(latitude=location.latitude, longitude=location.longitude)
+            else:
+                self.geocoordinates.latitude = location.latitude
+                self.geocoordinates.longitude = location.longitude
+                self.geocoordinates.save()
 
         super().save(*args, **kwargs)

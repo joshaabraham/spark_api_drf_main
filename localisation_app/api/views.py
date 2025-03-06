@@ -55,8 +55,22 @@ class AddressListCreateView(generics.ListCreateAPIView):
     queryset = Address.objects.all()
     serializer_class = AddressSerializer
 
-    def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
+     def perform_create(self, serializer):
+        address = serializer.validated_data.get('address')
+        url = "https://maps.googleapis.com/maps/api/geocode/json"
+        params = {"address": address, "key": settings.GOOGLE_MAPS_API_KEY}
+        response = requests.get(url, params=params)
+        data = response.json()
+
+        if data['status'] != 'OK':
+            raise serializers.ValidationError({"error": data.get('error_message', 'Unable to geocode address')})
+
+        coordinates = data['results'][0]['geometry']['location']
+        latitude = coordinates['lat']
+        longitude = coordinates['lng']
+
+        serializer.save(user=self.request.user, latitude=latitude, longitude=longitude)
+
 
 class AddressRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Address.objects.all()
