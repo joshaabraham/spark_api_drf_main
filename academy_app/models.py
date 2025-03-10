@@ -16,14 +16,14 @@ class Teacher(models.Model):
     school = models.ForeignKey(School, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.user.get_full_name()
+        return f"{self.user.first_name} {self.user.last_name}"
 
 class Student(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     school = models.ForeignKey(School, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.user.get_full_name()
+        return f"{self.school.name}"
 
 class Course(models.Model):
     title = models.CharField(max_length=255)
@@ -44,7 +44,7 @@ class Course(models.Model):
 
 
     def __str__(self):
-        return self.name
+        return self.title
 
 class Section(models.Model):
     title = models.CharField(max_length=255)
@@ -53,6 +53,9 @@ class Section(models.Model):
     subtitle = models.CharField(default='', max_length=255)
     content = models.TextField(blank=True, max_length=255)
 
+    def __str__(self):
+        return self.title
+    
 class Chapter(models.Model):
     title = models.CharField(max_length=255)
     content = models.TextField()
@@ -61,8 +64,6 @@ class Chapter(models.Model):
     subtitle = models.CharField(default='', max_length=255)
     content = models.TextField(blank=True, max_length=255)
     
-    def __str__(self):
-        return self.title
 
 
     def __str__(self):
