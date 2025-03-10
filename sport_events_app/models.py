@@ -1,4 +1,6 @@
 from django.db import models
+from django.utils.translation import gettext_lazy as _
+from enum import Enum
 
 from Player.models import Player
 from equipe_app.models import Team
@@ -6,7 +8,33 @@ from localisation_app.models import Address
 from sport_app.models import Sport
 from images_app.models import Album  # Importez le modèle Album
 
+class EventType(Enum):
+    INDIVIDUAL = "Individual"
+    TEAM = "Team"
+    MIXED = "Mixed"
 
+class GeographicScope(Enum):
+    LOCAL = "Local"
+    NATIONAL = "National"
+    CONTINENTAL = "Continental"
+    INTERNATIONAL = "International"
+
+class Frequency(Enum):
+    ANNUAL = "Annual"
+    BIENNIAL = "Biennial"
+    QUADRENNIAL = "Quadrennial"
+    ONE_TIME = "One-time"
+
+class SportType(Enum):
+    TEAM_SPORTS = "Team sports"
+    INDIVIDUAL_SPORTS = "Individual sports"
+    MOTOR_SPORTS = "Motor sports"
+    EXTREME_SPORTS = "Extreme sports"
+
+class Objective(Enum):
+    PROFESSIONAL = "Professional"
+    AMATEUR = "Amateur"
+    CHARITY = "Charity"
 
 class Sponsor(models.Model):
     name = models.CharField(max_length=255)  # Nom du sponsor
@@ -52,3 +80,9 @@ class SportEvent(models.Model):
     sponsors = models.ManyToManyField(Sponsor, related_name="sponsored_events")  # Sponsors
     media_coverage_details = models.ManyToManyField(MediaCoverage, related_name="covered_events")  # Couverture médiatique
     album = models.OneToOneField(Album, on_delete=models.CASCADE, related_name="event_album", blank=True, null=True)  # Album photo de l'événement
+
+    event_type = models.CharField(max_length=50, choices=[(tag, tag.value) for tag in EventType], default=EventType.INDIVIDUAL.value)  # Type d'événement
+    geographic_scope = models.CharField(max_length=50, choices=[(tag, tag.value) for tag in GeographicScope])  # Portée géographique
+    frequency = models.CharField(max_length=50, choices=[(tag, tag.value) for tag in Frequency])  # Fréquence
+    sport_type = models.CharField(max_length=50, choices=[(tag, tag.value) for tag in SportType])  # Type de sport
+    objective = models.CharField(max_length=50, choices=[(tag, tag.value) for tag in Objective])  # Objectif

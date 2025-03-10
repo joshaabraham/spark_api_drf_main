@@ -44,7 +44,7 @@ urlpatterns = [
     path("Promotions/", include("association_app.api.urls")),
     path("SubscriptionsAssoc/", include("association_app.api.urls")),
     
-    
+    path('players/', include('Player.api.urls')),
     
     path("scc/", include("association_configuration_app.api.urls")),
     path("chats/", include("chat_app.api.urls")),
