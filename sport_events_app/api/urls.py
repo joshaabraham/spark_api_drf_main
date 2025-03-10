@@ -22,6 +22,7 @@ urlpatterns = [
     path('locations/<int:pk>/', LocationDetailView.as_view(), name='locations-detail'),
     path('matches/', MatchListCreateView.as_view(), name='matches-list'),
     path('matches/<int:pk>/', MatchDetailView.as_view(), name='matches-detail'),
-    path('sport-events/', SportEventListCreateView.as_view(), name='sport-events-list'),
+    # path('sport-events/', SportEventListCreateView.as_view(), name='sport-events-list'),
+    path('sport-events/', SportEventFilterView.as_view(), name='sport-event-filter'),
     path('sport-events/<int:pk>/', SportEventDetailView.as_view(), name='sport-events-detail'),
 ]
