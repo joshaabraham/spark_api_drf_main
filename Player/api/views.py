@@ -3,7 +3,7 @@ from rest_framework import generics
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import SearchFilter
 from rest_framework.pagination import PageNumberPagination
-from .models import Player
+from Player.models import Player
 from .serializers import PlayerSerializer
 
 class PlayerPagination(PageNumberPagination):
@@ -11,7 +11,7 @@ class PlayerPagination(PageNumberPagination):
     page_size_query_param = 'page_size'
     max_page_size = 100
 
-class PlayerFilterView(generics.ListAPIView):
+class PlayerListCreateView(generics.ListCreateAPIView):
     queryset = Player.objects.all()
     serializer_class = PlayerSerializer
     filter_backends = [DjangoFilterBackend, SearchFilter]
@@ -30,3 +30,7 @@ class PlayerFilterView(generics.ListAPIView):
             max_date_of_birth = today - timedelta(days=age * 365)
             queryset = queryset.filter(date_of_birth__range=(min_date_of_birth, max_date_of_birth))
         return queryset
+
+class PlayerRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Player.objects.all()
+    serializer_class = PlayerSerializer

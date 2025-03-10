@@ -12,17 +12,17 @@ class GeoCoordinates(models.Model):
 
 
 class Address(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="addresses")
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="addresses", null=True, blank=True)
     street = models.CharField(max_length=200)
     city = models.CharField(max_length=100)
     state = models.CharField(max_length=100)
     postal_code = models.CharField(max_length=20)
     country = models.CharField(max_length=100)
-    geocoordinates = models.ForeignKey(GeoCoordinates, on_delete=models.CASCADE, related_name="addresses")
+    geocoordinates = models.ForeignKey(GeoCoordinates, on_delete=models.CASCADE, related_name="addresses", null=True, blank=True)
     # latitude = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True)
     # longitude = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True)
 
-     def __str__(self):
+    def __str__(self):
         return f"{self.street}, {self.city}, {self.state}, {self.postal_code}, {self.country}"
 
     def save(self, *args, **kwargs):

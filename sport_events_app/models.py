@@ -81,7 +81,7 @@ class SportEvent(models.Model):
     media_coverage_details = models.ManyToManyField(MediaCoverage, related_name="covered_events")  # Couverture médiatique
     album = models.OneToOneField(Album, on_delete=models.CASCADE, related_name="event_album", blank=True, null=True)  # Album photo de l'événement
 
-    event_type = models.CharField(max_length=50, choices=[(tag, tag.value) for tag in EventType])  # Type d'événement
+    event_type = models.CharField(max_length=50, choices=[(tag, tag.value) for tag in EventType], default=EventType.INDIVIDUAL.value)  # Type d'événement
     geographic_scope = models.CharField(max_length=50, choices=[(tag, tag.value) for tag in GeographicScope])  # Portée géographique
     frequency = models.CharField(max_length=50, choices=[(tag, tag.value) for tag in Frequency])  # Fréquence
     sport_type = models.CharField(max_length=50, choices=[(tag, tag.value) for tag in SportType])  # Type de sport
