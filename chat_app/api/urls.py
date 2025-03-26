@@ -1,9 +1,24 @@
 from django.urls import path
-from . import views
+from .views import (
+    ChatListCreateView, ChatRetrieveUpdateDestroyView,
+    MessageListCreateView, MessageRetrieveUpdateDestroyView,
+    GroupInvitationListCreateView, GroupInvitationRetrieveUpdateDestroyView,
+    MarkMessageAsReadView
+)
 
 urlpatterns = [
-    path("chatsCreateList/", views.ChatListCreateView.as_view(), name="chat_list_create"),
-    path("chat/<int:pk>/", views.ChatRetrieveUpdateDestroyView.as_view(), name="chat_detail"),
-    path("messagesCreateList/", views.MessageListCreateView.as_view(), name="message_create"),
-    
+    # Chats
+    path('chats/', ChatListCreateView.as_view(), name='chat-list-create'),
+    path('chats/<int:pk>/', ChatRetrieveUpdateDestroyView.as_view(), name='chat-detail'),
+
+    # Messages
+    path('chats/<int:chat_id>/messages/', MessageListCreateView.as_view(), name='message-list-create'),
+    path('messages/<int:pk>/', MessageRetrieveUpdateDestroyView.as_view(), name='message-detail'),
+
+    # Group Invitations
+    path('group-invitations/', GroupInvitationListCreateView.as_view(), name='group-invitation-list-create'),
+    path('group-invitations/<int:pk>/', GroupInvitationRetrieveUpdateDestroyView.as_view(), name='group-invitation-detail'),
+
+    # Mark message as read
+    path('messages/<int:pk>/mark-as-read/', MarkMessageAsReadView.as_view(), name='mark-message-as-read'),
 ]
