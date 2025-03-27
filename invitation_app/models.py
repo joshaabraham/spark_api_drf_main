@@ -50,8 +50,7 @@ class Invitation(models.Model):
     )  # Lieux alternatifs
     proposed_dates = models.ManyToManyField(ProposedDate, blank=True)  # Dates proposées
     confirmed_date = models.DateTimeField(null=True, blank=True)  # Date confirmée
-    confirmed_location = models.ForeignKey(
-        Address, on_delete=models.SET_NULL, null=True, blank=True, related_name="confirmed_invitations"
+    confirmed_location = models.ForeignKey(Address, on_delete=models.SET_NULL, null=True, blank=True, related_name="confirmed_invitations"
     )  # Lieu confirmé
     has_players_met_before = models.BooleanField(default=False)  # Indique si les joueurs se sont rencontrés
 
