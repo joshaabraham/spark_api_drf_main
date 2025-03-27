@@ -10,6 +10,7 @@ class ProfileUser(models.Model):
     avatar = models.ImageField(upload_to='profile_pics/', null=True, blank=True)
     background = models.ImageField(upload_to='cover_pics/', null=True, blank=True)
     name = models.CharField(max_length=255)
+    bio = models.TextField(blank=True, null=True)
     title = models.CharField(max_length=255, blank=True, null=True)
     job = models.CharField(max_length=255, blank=True, null=True)
     company = models.CharField(max_length=255, blank=True, null=True)
