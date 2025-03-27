@@ -11,8 +11,7 @@ class AlbumPhotoSerializer(serializers.ModelSerializer):
 class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProfileUser
-        fields = ['user', 'bio', 'location', 'birth_date', 'profile_image', 'cover_image',
-                  'website', 'is_private', 'posts_count', 'followers_count', 'following_count', 'friends_count', 'date_joined']
+        fields = '__all__'  # On récupère tous les champs du modèle ProfileUser
 
         # On rend ces champs en lecture seule pour empêcher la modification manuelle de certaines valeurs
         read_only_fields = ['user', 'posts_count', 'followers_count', 'following_count', 'friends_count', 'date_joined']
