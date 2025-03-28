@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import (
-    GeoCoordinatesListCreateView, GeoCoordinatesDetailView,
+    GeoCoordinatesListCreateView, GeoCoordinatesDetailView, SportEventFilterView,
     SportListCreateView, SportDetailView,
     PlayerListCreateView, PlayerDetailView,
     TeamListCreateView, TeamDetailView,
